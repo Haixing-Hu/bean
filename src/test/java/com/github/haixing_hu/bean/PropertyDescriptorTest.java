@@ -26,32 +26,28 @@ import static org.junit.Assert.fail;
  *
  * @author Haixing Hu
  */
-public class PropertyDescriptorTest extends XmlSerializationTest {
+public class PropertyDescriptorTest extends BeanClassTestBase {
 
   @Test
   public void testConstructorStringClass() {
-    final PropertyDescriptor desp1 = new PropertyDescriptor("prop1",
-        String.class);
+    final PropertyDescriptor desp1 = getPropertyDescriptor1();
     assertEquals("prop1", desp1.getName());
     assertEquals(String.class, desp1.getType());
     assertEquals(PropertyKind.SIMPLE, desp1.getKind());
 
-    final PropertyDescriptor desp2 = new PropertyDescriptor("prop-prop",
-        Boolean.class);
-    assertEquals("prop-prop", desp2.getName());
-    assertEquals(Boolean.class, desp2.getType());
-    assertEquals(PropertyKind.SIMPLE, desp2.getKind());
+    final PropertyDescriptor desp2 = getPropertyDescriptor2();
+    assertEquals("_prop2", desp2.getName());
+    assertEquals(Integer.class, desp2.getType());
+    assertEquals(PropertyKind.INDEXED, desp2.getKind());
 
-    final PropertyDescriptor desp3 = new PropertyDescriptor("_prop",
-        Integer.class);
-    assertEquals("_prop", desp3.getName());
-    assertEquals(Integer.class, desp3.getType());
-    assertEquals(PropertyKind.SIMPLE, desp3.getKind());
+    final PropertyDescriptor desp3 = getPropertyDescriptor3();
+    assertEquals("prop-3", desp3.getName());
+    assertEquals(Boolean.class, desp3.getType());
+    assertEquals(PropertyKind.MAPPED, desp3.getKind());
 
-    final PropertyDescriptor desp4 = new PropertyDescriptor("Prop123-prop4_",
-        Long.class);
-    assertEquals("Prop123-prop4_", desp4.getName());
-    assertEquals(Long.class, desp4.getType());
+    final PropertyDescriptor desp4 = getPropertyDescriptor4();
+    assertEquals("prop_4", desp4.getName());
+    assertEquals(MyBean.class, desp4.getType());
     assertEquals(PropertyKind.SIMPLE, desp4.getKind());
 
     try {
@@ -95,33 +91,6 @@ public class PropertyDescriptorTest extends XmlSerializationTest {
     } catch (final IllegalArgumentException e) {
       //  pass
     }
-  }
-
-  @Test
-  public void testConstructorStringClassKind() {
-    final PropertyDescriptor desp1 = new PropertyDescriptor("prop1",
-        String.class, PropertyKind.MAPPED);
-    assertEquals("prop1", desp1.getName());
-    assertEquals(String.class, desp1.getType());
-    assertEquals(PropertyKind.MAPPED, desp1.getKind());
-
-    final PropertyDescriptor desp2 = new PropertyDescriptor("prop-prop",
-        Boolean.class, PropertyKind.INDEXED);
-    assertEquals("prop-prop", desp2.getName());
-    assertEquals(Boolean.class, desp2.getType());
-    assertEquals(PropertyKind.INDEXED, desp2.getKind());
-
-    final PropertyDescriptor desp3 = new PropertyDescriptor("_prop",
-        Float.class, PropertyKind.MAPPED);
-    assertEquals("_prop", desp3.getName());
-    assertEquals(Float.class, desp3.getType());
-    assertEquals(PropertyKind.MAPPED, desp3.getKind());
-
-    final PropertyDescriptor desp4 = new PropertyDescriptor("Prop123-prop4_",
-        Integer.class, PropertyKind.SIMPLE);
-    assertEquals("Prop123-prop4_", desp4.getName());
-    assertEquals(Integer.class, desp4.getType());
-    assertEquals(PropertyKind.SIMPLE, desp4.getKind());
 
     try {
       new PropertyDescriptor(null, String.class, PropertyKind.MAPPED);
@@ -148,78 +117,55 @@ public class PropertyDescriptorTest extends XmlSerializationTest {
 
   @Test
   public void testXmlSerialize() throws Exception {
-    final PropertyDescriptor desp1 = new PropertyDescriptor("prop1",
-        Integer.class);
-    final String xml1 = "<property>"
-                + "<name>prop1</name>"
-                + "<type>int</type>"
-                + "<kind>simple</kind>"
-                + "</property>";
+    final PropertyDescriptor desp1 = getPropertyDescriptor1();
+    final String xml1 = getPropertyDescriptor1Xml();
     testXmlMarshal(PropertyDescriptor.class, desp1, xml1);
 
-    final PropertyDescriptor desp2 = new PropertyDescriptor("prop2",
-        String.class, PropertyKind.INDEXED);
-    final String xml2 = "<property>"
-                + "<name>prop2</name>"
-                + "<type>string</type>"
-                + "<kind>indexed</kind>"
-                + "</property>";
+    final PropertyDescriptor desp2 = getPropertyDescriptor2();
+    final String xml2 = getPropertyDescriptor2Xml();
     testXmlMarshal(PropertyDescriptor.class, desp2, xml2);
 
-    final PropertyDescriptor desp3 = new PropertyDescriptor("prop3",
-        Class.class, PropertyKind.MAPPED);
-    final String xml3 = "<property>"
-                + "<name>prop3</name>"
-                + "<type>class</type>"
-                + "<kind>mapped</kind>"
-                + "</property>";
+    final PropertyDescriptor desp3 = getPropertyDescriptor3();
+    final String xml3 = getPropertyDescriptor3Xml();
     testXmlMarshal(PropertyDescriptor.class, desp3, xml3);
 
-    final PropertyDescriptor desp4 = new PropertyDescriptor("prop4",
-        PropertyDescriptor.class, PropertyKind.MAPPED);
-    final String xml4 = "<property>"
-                + "<name>prop4</name>"
-                + "<type>com.github.haixing_hu.bean.PropertyDescriptor</type>"
-                + "<kind>mapped</kind>"
-                + "</property>";
+    final PropertyDescriptor desp4 = getPropertyDescriptor4();
+    final String xml4 = getPropertyDescriptor4Xml();
     testXmlMarshal(PropertyDescriptor.class, desp4, xml4);
+
+    final PropertyDescriptor desp5 = getPropertyDescriptor5();
+    final String xml5 = getPropertyDescriptor5Xml();
+    testXmlMarshal(PropertyDescriptor.class, desp5, xml5);
+
+    final PropertyDescriptor desp6 = getPropertyDescriptor6();
+    final String xml6 = getPropertyDescriptor6Xml();
+    testXmlMarshal(PropertyDescriptor.class, desp6, xml6);
   }
 
   @Test
   public void testXmlDeserialize() throws Exception {
-    final PropertyDescriptor desp1 = new PropertyDescriptor("prop1",
-        Integer.class);
-    final String xml1 = "<property>"
-                + "<name>prop1</name>"
-                + "<type>int</type>"
-                + "<kind>simple</kind>"
-                + "</property>";
+    final PropertyDescriptor desp1 = getPropertyDescriptor1();
+    final String xml1 = getPropertyDescriptor1Xml();
     testXmlUnmarshal(PropertyDescriptor.class, xml1, desp1);
 
-    final PropertyDescriptor desp2 = new PropertyDescriptor("prop2",
-        String.class, PropertyKind.INDEXED);
-    final String xml2 = "<property>"
-                + "<name>prop2</name>"
-                + "<type>string</type>"
-                + "<kind>indexed</kind>"
-                + "</property>";
+    final PropertyDescriptor desp2 = getPropertyDescriptor2();
+    final String xml2 = getPropertyDescriptor2Xml();
     testXmlUnmarshal(PropertyDescriptor.class, xml2, desp2);
 
-    final PropertyDescriptor desp3 = new PropertyDescriptor("prop3",
-        Class.class, PropertyKind.MAPPED);
-    final String xml3 = "<property>"
-                + "<name>prop3</name>"
-                + "<type>class</type>"
-                + "<kind>mapped</kind>"
-                + "</property>";
+    final PropertyDescriptor desp3 = getPropertyDescriptor3();
+    final String xml3 = getPropertyDescriptor3Xml();
     testXmlUnmarshal(PropertyDescriptor.class, xml3, desp3);
 
-    final PropertyDescriptor desp4 = new PropertyDescriptor("prop4",
-        PropertyDescriptor.class);
-    final String xml4 = "<property>"
-                + "<name>prop4</name>"
-                + "<type>com.github.haixing_hu.bean.PropertyDescriptor</type>"
-                + "</property>";
+    final PropertyDescriptor desp4 = getPropertyDescriptor4();
+    final String xml4 = getPropertyDescriptor4Xml();
     testXmlUnmarshal(PropertyDescriptor.class, xml4, desp4);
+
+    final PropertyDescriptor desp5 = getPropertyDescriptor5();
+    final String xml5 = getPropertyDescriptor5Xml();
+    testXmlUnmarshal(PropertyDescriptor.class, xml5, desp5);
+
+    final PropertyDescriptor desp6 = getPropertyDescriptor6();
+    final String xml6 = getPropertyDescriptor6Xml();
+    testXmlUnmarshal(PropertyDescriptor.class, xml6, desp6);
   }
 }

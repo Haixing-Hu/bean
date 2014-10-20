@@ -21,7 +21,7 @@ package com.github.haixing_hu.bean;
  *
  * @author Haixing Hu
  */
-public class MyBean extends BasicBean {
+public class MyBean extends DefaultBean {
 
   public MyBean(final BeanClass beanClass) {
     super(beanClass);

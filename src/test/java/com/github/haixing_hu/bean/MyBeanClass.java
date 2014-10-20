@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
  *
  * @author Haixing Hu
  */
-public class MyBeanClass extends BasicBeanClass {
+public class MyBeanClass extends DefaultBeanClass {
 
   public MyBeanClass(final String name,
       final PropertyDescriptor[] descriptors) {

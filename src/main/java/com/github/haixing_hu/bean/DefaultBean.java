@@ -33,22 +33,22 @@ import static com.github.haixing_hu.lang.Argument.requireNonNull;
  *
  * @author Haixing Hu
  */
-public class BasicBean implements Bean {
+public class DefaultBean implements Bean {
 
   private final BeanClass beanClass;
   private final Map<String, Property> properties;
 
   /**
-   * Constructs a {@link BasicBean}.
+   * Constructs a {@link DefaultBean}.
    *
    * @param beanClass
    *          the class of the bean.
    */
-  public BasicBean(final BeanClass beanClass) {
+  public DefaultBean(final BeanClass beanClass) {
     this.beanClass = requireNonNull("beanClass", beanClass);
     properties = new HashMap<>();
     for (final PropertyDescriptor pd : beanClass.getPropertyDescriptors()) {
-      final Property property = new BasicProperty(pd);
+      final Property property = new DefaultProperty(pd);
       properties.put(property.getName(), property);
     }
   }
@@ -211,7 +211,7 @@ public class BasicBean implements Bean {
     if (obj.getClass() != getClass()) {
       return false;
     }
-    final BasicBean rhs = (BasicBean) obj;
+    final DefaultBean rhs = (DefaultBean) obj;
     return new EqualsBuilder()
         .append(beanClass, rhs.beanClass)
         .append(properties, rhs.properties)

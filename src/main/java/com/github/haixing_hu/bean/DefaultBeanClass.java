@@ -39,12 +39,38 @@ import static com.github.haixing_hu.lang.Argument.requireNonNull;
 
 /**
  * A default implementation of {@link BeanClass} interface.
+ * <p>
+ * <h2>XML Serialization</h2>
+ * An example XML representation of a {@link DefaultBeanClass} is as follows:
+ * <pre><code>
+ * &lt;bean-class&gt;
+ *   &lt;name&gt;bean2&lt;/name&gt;
+ *   &lt;type&gt;default-bean&lt;/type&gt;
+ *   &lt;properties&gt;
+ *     &lt;property&gt;
+ *       &lt;name&gt;prop1&lt;/name&gt;
+ *       &lt;type&gt;string&lt;/type&gt;
+ *       &lt;kind&gt;simple&lt;/kind&gt;
+ *     &lt;/property&gt;
+ *     &lt;property&gt;
+ *       &lt;name&gt;prop2&lt;/name&gt;
+ *       &lt;type&gt;int&lt;/type&gt;
+ *       &lt;kind&gt;indexed&lt;/kind&gt;
+ *     &lt;/property&gt;
+ *     &lt;property&gt;
+ *       &lt;name&gt;prop3&lt;/name&gt;
+ *       &lt;type&gt;my-bean&lt;/type&gt;
+ *       &lt;kind&gt;mapped&lt;/kind&gt;
+ *     &lt;/property&gt;
+ *   &lt;/properties&gt;
+ * &lt;/bean-class&gt;
+ * </code></pre>
  *
  * @author Haixing Hu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "bean")
-public class BasicBeanClass implements BeanClass {
+@XmlRootElement(name = "bean-class")
+public class DefaultBeanClass implements BeanClass {
 
   /**
    * The name of this bean class.
@@ -57,7 +83,7 @@ public class BasicBeanClass implements BeanClass {
    */
   @XmlJavaTypeAdapter(TypeAliasXmlAdapter.class)
   @XmlElement(name = "type", required = false)
-  protected Class<? extends Bean> beanType = BasicBean.class;
+  protected Class<? extends Bean> beanType = DefaultBean.class;
 
   /**
    * The property descriptors of the beans created by this bean class.
@@ -91,12 +117,13 @@ public class BasicBeanClass implements BeanClass {
   /**
    * A default constructor used by the JAXB.
    */
-  BasicBeanClass() {
+  DefaultBeanClass() {
     name = StringUtils.EMPTY;
+    beanType = DefaultBean.class;
   }
 
   /**
-   * Constructs a {@link BasicBeanClass}.
+   * Constructs a {@link DefaultBeanClass}.
    * <p>
    * The constructor will use {@link BasicBean.class} to create new bean
    * instances.
@@ -107,13 +134,13 @@ public class BasicBeanClass implements BeanClass {
    *          the property descriptors for the properties of the beans created
    *          by the new bean class.
    */
-  public BasicBeanClass(final String name,
+  public DefaultBeanClass(final String name,
       final PropertyDescriptor[] descriptors) {
     this(name, descriptors, null);
   }
 
   /**
-   * Constructs a {@link BasicBeanClass}.
+   * Constructs a {@link DefaultBeanClass}.
    *
    * @param name
    *          the name of the new bean class.
@@ -125,7 +152,7 @@ public class BasicBeanClass implements BeanClass {
    *          instances. If this argument is {@code null}, the constructor will
    *          use {@link BasicBean.class} to create new bean instances.
    */
-  public BasicBeanClass(final String name,
+  public DefaultBeanClass(final String name,
       final PropertyDescriptor[] descriptors,
       @Nullable final Class<? extends Bean> beanType) {
     this.name = requireNonNull("name", name);
@@ -160,7 +187,7 @@ public class BasicBeanClass implements BeanClass {
    */
   protected void setBeanType(@Nullable final Class<? extends Bean> beanType) {
     if (beanType == null) {
-      this.beanType = BasicBean.class;
+      this.beanType = DefaultBean.class;
     } else if (beanType.isInterface()) {
       throw new IllegalArgumentException("Class " + beanType.getName()
           + " is an interface, not a class");
@@ -241,7 +268,7 @@ public class BasicBeanClass implements BeanClass {
     if (obj.getClass() != getClass()) {
       return false;
     }
-    final BasicBeanClass rhs = (BasicBeanClass) obj;
+    final DefaultBeanClass rhs = (DefaultBeanClass) obj;
     return new EqualsBuilder()
         .append(name, rhs.name)
         .append(beanType, rhs.beanType)

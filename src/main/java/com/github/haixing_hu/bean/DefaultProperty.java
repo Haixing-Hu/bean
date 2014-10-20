@@ -31,22 +31,22 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import static com.github.haixing_hu.lang.Argument.requireNonNull;
 
 /**
- * A {@link BasicProperty} represents a descriptor of a bean.
+ * A {@link DefaultProperty} represents a descriptor of a bean.
  *
  * @author Haixing Hu
  */
-public class BasicProperty implements Property {
+public class DefaultProperty implements Property {
 
   protected final PropertyDescriptor descriptor;
   protected Object value;
 
   /**
-   * Constructs a {@link BasicProperty}.
+   * Constructs a {@link DefaultProperty}.
    *
    * @param descriptor
    *          a property descriptor.
    */
-  public BasicProperty(final PropertyDescriptor descriptor) {
+  public DefaultProperty(final PropertyDescriptor descriptor) {
     this.descriptor = requireNonNull("descriptor", descriptor);
     switch (descriptor.getKind()) {
       case SIMPLE:
@@ -132,34 +132,39 @@ public class BasicProperty implements Property {
     return value;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public final void setRawValue(@Nullable final Object value) {
     switch (descriptor.getKind()) {
       case SIMPLE:
-        break;
+        this.value = value;
+        return;
       case INDEXED:
         if (value == null) {
           throw new NullPointerException("value is null.");
         }
-        if (! (value instanceof List)) {
-          throw new IllegalArgumentException(
-              "The value of an indexed property must be a java.util.List.");
+        if (! (value instanceof ArrayList)) {
+          throw new ClassCastException(
+              "The value of an indexed property must be a java.util.ArrayList.");
         }
-        break;
+        //  FIXME: check the generic argument type of the ArrayList
+        setIndexedValue((ArrayList<Object>) value);
+        return;
       case MAPPED:
         if (value == null) {
           throw new NullPointerException("value is null.");
         }
-        if (! (value instanceof Map)) {
-          throw new IllegalArgumentException(
-              "The value of a mapped property must be a java.util.Map.");
+        if (! (value instanceof HashMap)) {
+          throw new ClassCastException(
+              "The value of a mapped property must be a java.util.HashMap.");
         }
-        break;
+        //  FIXME: check the generic argument type of the HashMap
+        setMappedValue((HashMap<String, Object>) value);
+        return;
       default:
         throw new IllegalArgumentException("Unsupported property kind: "
             + descriptor.getKind());
     }
-    this.value = value;
   }
 
   @Override
@@ -185,97 +190,111 @@ public class BasicProperty implements Property {
   @Override
   public final void setSimpleValue(@Nullable final Object object) {
     checkKind(PropertyKind.SIMPLE);
+    checkType(object);
     value = object;
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public final List<Object> getIndexedValue() {
+  public final ArrayList<Object> getIndexedValue() {
     checkKind(PropertyKind.INDEXED);
-    return (List<Object>) value;
+    return (ArrayList<Object>) value;
   }
 
   @Override
-  public final void setIndexedValue(final List<Object> list) {
+  public final void setIndexedValue(final ArrayList<Object> list) {
     checkKind(PropertyKind.INDEXED);
-    value = requireNonNull("list", list);
+    requireNonNull("list", list);
+    for (final Object obj : list) {
+      checkType(obj);
+    }
+    @SuppressWarnings("unchecked")
+    final ArrayList<Object> valueList = (ArrayList<Object>) value;
+    valueList.clear();
+    valueList.addAll(list);
   }
 
   @Override
   public final Object getIndexedValue(final int index) {
-    final List<Object> list = getIndexedValue();
+    final ArrayList<Object> list = getIndexedValue();
     return list.get(index);
   }
 
   @Override
   public final void setIndexedValue(final int index, final Object value) {
-    final List<Object> list = getIndexedValue();
+    final ArrayList<Object> list = getIndexedValue();
     checkType(value);
     list.set(index, value);
   }
 
   @Override
   public final void addIndexedValue(final int index, final Object value) {
-    final List<Object> list = getIndexedValue();
+    final ArrayList<Object> list = getIndexedValue();
     checkType(value);
     list.add(index, value);
   }
 
   @Override
   public final void addIndexedValue(final Object value) {
-    final List<Object> list = getIndexedValue();
+    final ArrayList<Object> list = getIndexedValue();
     checkType(value);
     list.add(value);
   }
 
   @Override
   public final Object removeIndexedValue(final int index) {
-    final List<Object> list = getIndexedValue();
-    checkType(value);
+    final ArrayList<Object> list = getIndexedValue();
     return list.remove(index);
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public final Map<String, Object> getMappedValue() {
+  public final HashMap<String, Object> getMappedValue() {
     checkKind(PropertyKind.MAPPED);
-    return (Map<String, Object>) value;
+    return (HashMap<String, Object>) value;
   }
 
   @Override
-  public final void setMappedValue(final Map<String, Object> map) {
+  public final void setMappedValue(final HashMap<String, Object> map) {
     checkKind(PropertyKind.MAPPED);
-    value = requireNonNull("list", map);
+    requireNonNull("map", map);
+    for (final Object obj : map.values()) {
+      checkType(obj);
+    }
+    @SuppressWarnings("unchecked")
+    final HashMap<String, Object> valueMap = (HashMap<String, Object>) value;
+    valueMap.clear();
+    valueMap.putAll(map);
   }
 
   @Override
   public final Set<String> getKeySet() {
-    final Map<String, Object> map = getMappedValue();
+    final HashMap<String, Object> map = getMappedValue();
     return map.keySet();
   }
 
   @Override
   public final boolean containsKey(final String key) {
-    final Map<String, Object> map = getMappedValue();
+    final HashMap<String, Object> map = getMappedValue();
     return map.containsKey(key);
   }
 
   @Override
   public final Object getMappedValue(final String key) {
-    final Map<String, Object> map = getMappedValue();
+    final HashMap<String, Object> map = getMappedValue();
     return map.get(key);
   }
 
   @Override
   public final void setMappedValue(final String key, final Object value) {
-    final Map<String, Object> map = getMappedValue();
+    final HashMap<String, Object> map = getMappedValue();
     checkType(value);
     map.put(key, value);
   }
 
   @Override
   public final Object removeMappedValue(final String key) {
-    final Map<String, Object> map = getMappedValue();
+    final HashMap<String, Object> map = getMappedValue();
     return map.remove(key);
   }
 
@@ -314,7 +333,7 @@ public class BasicProperty implements Property {
     if (obj.getClass() != getClass()) {
       return false;
     }
-    final BasicProperty rhs = (BasicProperty) obj;
+    final DefaultProperty rhs = (DefaultProperty) obj;
     return new EqualsBuilder()
         .append(descriptor, rhs.descriptor)
         .append(value, rhs.value)

@@ -82,6 +82,8 @@ public final class TypeAliasRegistry {
     doRegister("set", Set.class);
     doRegister("map", Map.class);
     doRegister("collection", Collection.class);
+
+    doRegister("default-bean", DefaultBean.class);
   }
 
   private TypeAliasRegistry() { }
