@@ -50,7 +50,6 @@ public class PropertyDescriptorTestBase extends XmlSerializationTestBase {
   }
 
   protected PropertyDescriptor getPropertyDescriptor3() {
-
     return new PropertyDescriptor("prop-3", Boolean.class, PropertyKind.MAPPED);
   }
 
@@ -99,4 +98,72 @@ public class PropertyDescriptorTestBase extends XmlSerializationTestBase {
          + "<kind>mapped</kind>"
          + "</property>";
   }
+
+
+  protected PropertyDescriptorGroup getPropertyDescriptorGroup0() {
+    return new PropertyDescriptorGroup("group0",
+        new PropertyDescriptor[0]);
+  }
+
+  protected String getPropertyDescriptorGroup0Xml() {
+    return "<property-group>"
+         + "<name>group0</name>"
+        +  "<properties/>"
+         + "</property-group>";
+  }
+
+  protected PropertyDescriptorGroup getPropertyDescriptorGroup1() {
+    return new PropertyDescriptorGroup("group1",
+        new PropertyDescriptor[] {
+          getPropertyDescriptor1(),
+        });
+  }
+
+  protected String getPropertyDescriptorGroup1Xml() {
+    return "<property-group>"
+         + "<name>group1</name>"
+         + "<properties>"
+         + getPropertyDescriptor1Xml()
+         + "</properties>"
+         + "</property-group>";
+  }
+
+  protected PropertyDescriptorGroup getPropertyDescriptorGroup2() {
+    return new PropertyDescriptorGroup("group2",
+        new PropertyDescriptor[] {
+          getPropertyDescriptor2(),
+          getPropertyDescriptor3(),
+        });
+  }
+
+  protected String getPropertyDescriptorGroup2Xml() {
+    return "<property-group>"
+         + "<name>group2</name>"
+         + "<properties>"
+         + getPropertyDescriptor2Xml()
+         + getPropertyDescriptor3Xml()
+         + "</properties>"
+         + "</property-group>";
+  }
+
+  protected PropertyDescriptorGroup getPropertyDescriptorGroup3() {
+    return new PropertyDescriptorGroup("group3",
+        new PropertyDescriptor[] {
+          getPropertyDescriptor4(),
+          getPropertyDescriptor5(),
+          getPropertyDescriptor6(),
+        });
+  }
+
+  protected String getPropertyDescriptorGroup3Xml() {
+    return "<property-group>"
+         + "<name>group3</name>"
+         + "<properties>"
+         + getPropertyDescriptor4Xml()
+         + getPropertyDescriptor5Xml()
+         + getPropertyDescriptor6Xml()
+         + "</properties>"
+         + "</property-group>";
+  }
+
 }

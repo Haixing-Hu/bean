@@ -58,14 +58,20 @@ public final class PropertyDescriptorGroup {
    * Constructs a {@link PropertyDescriptorGroup}.
    *
    * @param name
-   *          the name of the group, which cannot be {@code null}.
+   *          the name of the group, which cannot be {@code null}. The names
+   *          of a group must satisfy the same requirement as the names of
+   *          a property.
    * @param descriptors
    *          the array of property descriptors in the group, which cannot be
    *          {@code null}.
+   * @see PropertyDescriptor#isValidName(String)
    */
   public PropertyDescriptorGroup(final String name,
       final PropertyDescriptor[] descriptors) {
     this.name = requireNonNull("name", name);
+    if (! PropertyDescriptor.isValidName(name)) {
+      throw new IllegalArgumentException("Invalid group name: " + name);
+    }
     this.descriptors = requireNonNull("descriptors", descriptors);
   }
 

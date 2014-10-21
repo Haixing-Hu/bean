@@ -19,6 +19,8 @@ package com.github.haixing_hu.bean;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 /**
@@ -110,6 +112,22 @@ public class GroupedBeanClassTest extends BeanClassTestBase {
     } catch (final NullPointerException e) {
       //  pass
     }
+
+    try {
+      new GroupedBeanClass("bean1", new PropertyDescriptorGroup[0],
+          Bean.class);
+      fail("should throw");
+    } catch (final IllegalArgumentException e) {
+      //  pass
+    }
+
+    try {
+      new GroupedBeanClass("bean1", new PropertyDescriptorGroup[0],
+          EmptyBean.class);
+      fail("should throw");
+    } catch (final IllegalArgumentException e) {
+      //  pass
+    }
   }
 
 
@@ -129,8 +147,208 @@ public class GroupedBeanClassTest extends BeanClassTestBase {
 
     final GroupedBeanClass cls4 = getGroupedBeanClass4();
     testBeanClass4NewInstance(cls4);
+
+    final GroupedBeanClass cls = new GroupedBeanClass();
+    testEmptyBeanClassNewInstance(cls);
+
+    final GroupedBeanClass clsb = new GroupedBeanClass("bad-bean",
+        new PropertyDescriptorGroup[0], BadBean.class);
+    testBadBeanClassNewInstance(clsb);
   }
 
+  @Test
+  public void testHasProperty() {
+    final GroupedBeanClass cls0 = getGroupedBeanClass0();
+    testBeanClass0HasProperty(cls0);
+
+    final GroupedBeanClass cls1 = getGroupedBeanClass1();
+    testBeanClass1HasProperty(cls1);
+
+    final GroupedBeanClass cls2 = getGroupedBeanClass2();
+    testBeanClass2HasProperty(cls2);
+
+    final GroupedBeanClass cls3 = getGroupedBeanClass3();
+    testBeanClass3HasProperty(cls3);
+
+    final GroupedBeanClass cls4 = getGroupedBeanClass4();
+    testBeanClass4HasProperty(cls4);
+
+    final GroupedBeanClass cls = new GroupedBeanClass();
+    testEmptyBeanClassHasProperty(cls);
+  }
+
+  @Test
+  public void testGetPropertyDescriptor() {
+    final GroupedBeanClass cls0 = getGroupedBeanClass0();
+    testBeanClass0GetPropertyDescriptor(cls0);
+
+    final GroupedBeanClass cls1 = getGroupedBeanClass1();
+    testBeanClass1GetPropertyDescriptor(cls1);
+
+    final GroupedBeanClass cls2 = getGroupedBeanClass2();
+    testBeanClass2GetPropertyDescriptor(cls2);
+
+    final GroupedBeanClass cls3 = getGroupedBeanClass3();
+    testBeanClass3GetPropertyDescriptor(cls3);
+
+    final GroupedBeanClass cls4 = getGroupedBeanClass4();
+    testBeanClass4GetPropertyDescriptor(cls4);
+
+    final GroupedBeanClass cls = new GroupedBeanClass();
+    testEmptyBeanClassGetPropertyDescriptor(cls);
+  }
+
+
+  @Test
+  public void testEqualHashCode() {
+    final GroupedBeanClass cls0 = getGroupedBeanClass0();
+    final GroupedBeanClass cls0c = getGroupedBeanClass0();
+
+    final GroupedBeanClass cls1 = getGroupedBeanClass1();
+    final GroupedBeanClass cls1c = getGroupedBeanClass1();
+
+    final GroupedBeanClass cls2 = getGroupedBeanClass2();
+    final GroupedBeanClass cls2c = getGroupedBeanClass2();
+
+    final GroupedBeanClass cls3 = getGroupedBeanClass3();
+    final GroupedBeanClass cls3c = getGroupedBeanClass3();
+
+    final GroupedBeanClass cls4 = getGroupedBeanClass4();
+    final GroupedBeanClass cls4c = getGroupedBeanClass4();
+
+    assertEquals(true, cls0.equals(cls0));
+    assertEquals(true, cls0.equals(cls0c));
+    assertEquals(false, cls0.equals(cls1));
+    assertEquals(false, cls0.equals(cls2));
+    assertEquals(false, cls0.equals(cls3));
+    assertEquals(false, cls0.equals(cls4));
+    assertEquals(false, cls0.equals(null));
+    assertEquals(false, cls0.equals("str"));
+
+    assertEquals(cls0.hashCode(), cls0.hashCode());
+    assertEquals(cls0.hashCode(), cls0c.hashCode());
+    assertNotEquals(cls0.hashCode(), cls1.hashCode());
+    assertNotEquals(cls0.hashCode(), cls2.hashCode());
+    assertNotEquals(cls0.hashCode(), cls3.hashCode());
+    assertNotEquals(cls0.hashCode(), cls4.hashCode());
+
+    assertEquals(true, cls1.equals(cls1));
+    assertEquals(true, cls1.equals(cls1c));
+    assertEquals(false, cls1.equals(cls0));
+    assertEquals(false, cls1.equals(cls2));
+    assertEquals(false, cls1.equals(cls3));
+    assertEquals(false, cls1.equals(cls4));
+    assertEquals(false, cls1.equals(null));
+    assertEquals(false, cls1.equals("str"));
+
+    assertEquals(cls1.hashCode(), cls1.hashCode());
+    assertEquals(cls1.hashCode(), cls1c.hashCode());
+    assertNotEquals(cls1.hashCode(), cls0.hashCode());
+    assertNotEquals(cls1.hashCode(), cls2.hashCode());
+    assertNotEquals(cls1.hashCode(), cls3.hashCode());
+    assertNotEquals(cls1.hashCode(), cls4.hashCode());
+
+    assertEquals(true, cls2.equals(cls2));
+    assertEquals(true, cls2.equals(cls2c));
+    assertEquals(false, cls2.equals(cls0));
+    assertEquals(false, cls2.equals(cls1));
+    assertEquals(false, cls2.equals(cls3));
+    assertEquals(false, cls2.equals(cls4));
+    assertEquals(false, cls2.equals(null));
+    assertEquals(false, cls2.equals("str"));
+
+    assertEquals(cls2.hashCode(), cls2.hashCode());
+    assertEquals(cls2.hashCode(), cls2c.hashCode());
+    assertNotEquals(cls2.hashCode(), cls0.hashCode());
+    assertNotEquals(cls2.hashCode(), cls1.hashCode());
+    assertNotEquals(cls2.hashCode(), cls3.hashCode());
+    assertNotEquals(cls2.hashCode(), cls4.hashCode());
+
+    assertEquals(true, cls3.equals(cls3));
+    assertEquals(true, cls3.equals(cls3c));
+    assertEquals(false, cls3.equals(cls0));
+    assertEquals(false, cls3.equals(cls1));
+    assertEquals(false, cls3.equals(cls2));
+    assertEquals(false, cls3.equals(cls4));
+    assertEquals(false, cls3.equals(null));
+    assertEquals(false, cls3.equals("str"));
+
+    assertEquals(cls3.hashCode(), cls3.hashCode());
+    assertEquals(cls3.hashCode(), cls3c.hashCode());
+    assertNotEquals(cls3.hashCode(), cls0.hashCode());
+    assertNotEquals(cls3.hashCode(), cls1.hashCode());
+    assertNotEquals(cls3.hashCode(), cls2.hashCode());
+    assertNotEquals(cls3.hashCode(), cls4.hashCode());
+
+    assertEquals(true, cls4.equals(cls4));
+    assertEquals(true, cls4.equals(cls4c));
+    assertEquals(false, cls4.equals(cls0));
+    assertEquals(false, cls4.equals(cls1));
+    assertEquals(false, cls4.equals(cls2));
+    assertEquals(false, cls4.equals(cls3));
+    assertEquals(false, cls4.equals(null));
+    assertEquals(false, cls4.equals("str"));
+
+    assertEquals(cls4.hashCode(), cls4.hashCode());
+    assertEquals(cls4.hashCode(), cls4c.hashCode());
+    assertNotEquals(cls4.hashCode(), cls0.hashCode());
+    assertNotEquals(cls4.hashCode(), cls1.hashCode());
+    assertNotEquals(cls4.hashCode(), cls2.hashCode());
+    assertNotEquals(cls4.hashCode(), cls3.hashCode());
+  }
+
+  @Test
+  public void testToString() {
+    final GroupedBeanClass cls0 = getGroupedBeanClass0();
+    final GroupedBeanClass cls0c = getGroupedBeanClass0();
+
+    final GroupedBeanClass cls1 = getGroupedBeanClass1();
+    final GroupedBeanClass cls1c = getGroupedBeanClass1();
+
+    final GroupedBeanClass cls2 = getGroupedBeanClass2();
+    final GroupedBeanClass cls2c = getGroupedBeanClass2();
+
+    final GroupedBeanClass cls3 = getGroupedBeanClass3();
+    final GroupedBeanClass cls3c = getGroupedBeanClass3();
+
+    final GroupedBeanClass cls4 = getGroupedBeanClass4();
+    final GroupedBeanClass cls4c = getGroupedBeanClass4();
+
+    assertEquals(cls0.toString(), cls0.toString());
+    assertNotEquals(cls0.toString(), cls0c.toString());
+    assertNotEquals(cls0.toString(), cls1.toString());
+    assertNotEquals(cls0.toString(), cls2.toString());
+    assertNotEquals(cls0.toString(), cls3.toString());
+    assertNotEquals(cls0.toString(), cls4.toString());
+
+    assertEquals(cls1.toString(), cls1.toString());
+    assertNotEquals(cls1.toString(), cls1c.toString());
+    assertNotEquals(cls1.toString(), cls0.toString());
+    assertNotEquals(cls1.toString(), cls2.toString());
+    assertNotEquals(cls1.toString(), cls3.toString());
+    assertNotEquals(cls1.toString(), cls4.toString());
+
+    assertEquals(cls2.toString(), cls2.toString());
+    assertNotEquals(cls2.toString(), cls2c.toString());
+    assertNotEquals(cls2.toString(), cls0.toString());
+    assertNotEquals(cls2.toString(), cls1.toString());
+    assertNotEquals(cls2.toString(), cls3.toString());
+    assertNotEquals(cls2.toString(), cls4.toString());
+
+    assertEquals(cls3.toString(), cls3.toString());
+    assertNotEquals(cls3.toString(), cls3c.toString());
+    assertNotEquals(cls3.toString(), cls0.toString());
+    assertNotEquals(cls3.toString(), cls1.toString());
+    assertNotEquals(cls3.toString(), cls2.toString());
+    assertNotEquals(cls3.toString(), cls4.toString());
+
+    assertEquals(cls4.toString(), cls4.toString());
+    assertNotEquals(cls4.toString(), cls4c.toString());
+    assertNotEquals(cls4.toString(), cls0.toString());
+    assertNotEquals(cls4.toString(), cls1.toString());
+    assertNotEquals(cls4.toString(), cls2.toString());
+    assertNotEquals(cls4.toString(), cls3.toString());
+  }
 
   @Test
   public void testXmlSerialize() throws Exception {

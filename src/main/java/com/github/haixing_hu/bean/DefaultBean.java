@@ -60,11 +60,13 @@ public class DefaultBean implements Bean {
 
   @Override
   public final Property getProperty(final String name) {
+    requireNonNull("name", name);
     return properties.get(name);
   }
 
   @Override
   public final Object get(final String name) {
+    requireNonNull("name", name);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -73,7 +75,8 @@ public class DefaultBean implements Bean {
   }
 
   @Override
-  public final void set(final String name, final Object value) {
+  public final void set(final String name, @Nullable final Object value) {
+    requireNonNull("name", name);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -83,6 +86,7 @@ public class DefaultBean implements Bean {
 
   @Override
   public final int getSize(final String name) {
+    requireNonNull("name", name);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -92,6 +96,7 @@ public class DefaultBean implements Bean {
 
   @Override
   public final Object get(final String name, final int index) {
+    requireNonNull("name", name);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -102,6 +107,7 @@ public class DefaultBean implements Bean {
   @Override
   public final void set(final String name, final int index,
       @Nullable final Object value) {
+    requireNonNull("name", name);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -112,6 +118,7 @@ public class DefaultBean implements Bean {
   @Override
   public final void add(final String name, final int index,
       @Nullable final Object value) {
+    requireNonNull("name", name);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -121,6 +128,7 @@ public class DefaultBean implements Bean {
 
   @Override
   public final void add(final String name, @Nullable final Object value) {
+    requireNonNull("name", name);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -130,6 +138,7 @@ public class DefaultBean implements Bean {
 
   @Override
   public final Object remove(final String name, final int index) {
+    requireNonNull("name", name);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -139,6 +148,7 @@ public class DefaultBean implements Bean {
 
   @Override
   public final Set<String> getKeySet(final String name) {
+    requireNonNull("name", name);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -148,6 +158,8 @@ public class DefaultBean implements Bean {
 
   @Override
   public final boolean containsKey(final String name, final String key) {
+    requireNonNull("name", name);
+    requireNonNull("key", key);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -157,6 +169,8 @@ public class DefaultBean implements Bean {
 
   @Override
   public final Object get(final String name, final String key) {
+    requireNonNull("name", name);
+    requireNonNull("key", key);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -167,6 +181,8 @@ public class DefaultBean implements Bean {
   @Override
   public final void set(final String name, final String key,
       @Nullable final Object value) {
+    requireNonNull("name", name);
+    requireNonNull("key", key);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -176,6 +192,8 @@ public class DefaultBean implements Bean {
 
   @Override
   public final Object remove(final String name, final String key) {
+    requireNonNull("name", name);
+    requireNonNull("key", key);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);
@@ -185,6 +203,7 @@ public class DefaultBean implements Bean {
 
   @Override
   public final void clear(final String name) {
+    requireNonNull("name", name);
     final Property property = properties.get(name);
     if (property == null) {
       throw new PropertyNotExistException(name);

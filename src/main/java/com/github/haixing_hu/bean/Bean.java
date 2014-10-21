@@ -63,6 +63,8 @@ public interface Bean {
    *          the name of the property to be get.
    * @return the property with the specified name, or {@code null} if there is
    *         no such property.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws ReflectionException
    *           if any other error occurs during the reflection operation.
    */
@@ -75,6 +77,8 @@ public interface Bean {
    *          the name of a simple property.
    * @return the value of the simple property with the specified name, which
    *         could be {@code null}, depending on the implementation.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -93,6 +97,8 @@ public interface Bean {
    *          the value to be set to the simple property with the specified
    *          name, which could be {@code null}, depending on the
    *          implementation.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -113,6 +119,8 @@ public interface Bean {
    * @param name
    *          the name of an indexed or mapped property.
    * @return the size (number of values) of the indexed or mapped property.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -133,6 +141,8 @@ public interface Bean {
    * @return the value at the specified index of the indexed property with the
    *         specified name, which could be {@code null}, depending on the
    *         implementation.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -156,6 +166,8 @@ public interface Bean {
    *          the value to be set to specified index at the index property with
    *          the specified name, which could be {@code null}, depending on the
    *          implementation.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -184,6 +196,8 @@ public interface Bean {
    *          the value to be inserted to specified index of the indexed
    *          property with the specified name, which could be {@code null},
    *          depending on the implementation.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -210,6 +224,8 @@ public interface Bean {
    *          the value to be added to the end of the indexed property with the
    *          specified name, which could be {@code null}, depending on the
    *          implementation.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -237,6 +253,8 @@ public interface Bean {
    * @return the value at the specified index that was removed from the indexed
    *         property with the specified name, which may be {@code null} ,
    *         depending on the implementation.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -255,6 +273,8 @@ public interface Bean {
    * @param name
    *          the name of a mapped property.
    * @return the key set of the mapped property.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -273,6 +293,8 @@ public interface Bean {
    *          the key to check.
    * @return {@code true} if the mapped property with the specified name
    *         contains the specified key; {@code false} otherwise.
+   * @throws NullPointerException
+   *           if {@code name} or {@code key} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -292,6 +314,8 @@ public interface Bean {
    * @return the value corresponds to the specified key of the mapped property
    *         with the specified name, which could be {@code null}, depending on
    *         the implementation.
+   * @throws NullPointerException
+   *           if {@code name} or {@code key} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -320,7 +344,7 @@ public interface Bean {
    *           if the type of the provided value does not match the type of the
    *           specified property.
    * @throws NullPointerException
-   *           if attempt to set a primitive property to {@code null}.
+   *           if {@code name} or {@code key} is {@code null}.
    * @throws ReflectionException
    *           if any other error occurs during the reflection operation.
    */
@@ -337,6 +361,8 @@ public interface Bean {
    *         the mapped property with the specified name; or {@code null} if
    *         there is no value corresponds to the specified key in the mapped
    *         property.
+   * @throws NullPointerException
+   *           if {@code name} or {@code key} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException
@@ -351,6 +377,8 @@ public interface Bean {
    *
    * @param name
    *          the name of a indexed or mapped property.
+   * @throws NullPointerException
+   *           if {@code name} is {@code null}.
    * @throws PropertyNotExistException
    *           if the specified property does not exist.
    * @throws InvalidPropertyKindException

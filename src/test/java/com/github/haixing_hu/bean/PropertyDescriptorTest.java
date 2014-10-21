@@ -19,6 +19,7 @@ package com.github.haixing_hu.bean;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 /**
@@ -29,26 +30,53 @@ import static org.junit.Assert.fail;
 public class PropertyDescriptorTest extends BeanClassTestBase {
 
   @Test
+  public void testIsValidName() {
+    assertEquals(false, PropertyDescriptor.isValidName(null));
+    assertEquals(false, PropertyDescriptor.isValidName(""));
+    assertEquals(false, PropertyDescriptor.isValidName("a.b"));
+    assertEquals(false, PropertyDescriptor.isValidName("-ab"));
+    assertEquals(false, PropertyDescriptor.isValidName("12ab"));
+    assertEquals(true, PropertyDescriptor.isValidName("a"));
+    assertEquals(true, PropertyDescriptor.isValidName("ab"));
+    assertEquals(true, PropertyDescriptor.isValidName("_ab"));
+    assertEquals(true, PropertyDescriptor.isValidName("a123"));
+    assertEquals(true, PropertyDescriptor.isValidName("ab123-1"));
+    assertEquals(true, PropertyDescriptor.isValidName("_a12-3"));
+  }
+
+  @Test
   public void testConstructorStringClass() {
     final PropertyDescriptor desp1 = getPropertyDescriptor1();
     assertEquals("prop1", desp1.getName());
     assertEquals(String.class, desp1.getType());
     assertEquals(PropertyKind.SIMPLE, desp1.getKind());
+    assertEquals(true, desp1.isSimple());
+    assertEquals(false, desp1.isIndexed());
+    assertEquals(false, desp1.isMapped());
 
     final PropertyDescriptor desp2 = getPropertyDescriptor2();
     assertEquals("_prop2", desp2.getName());
     assertEquals(Integer.class, desp2.getType());
     assertEquals(PropertyKind.INDEXED, desp2.getKind());
+    assertEquals(false, desp2.isSimple());
+    assertEquals(true, desp2.isIndexed());
+    assertEquals(false, desp2.isMapped());
 
     final PropertyDescriptor desp3 = getPropertyDescriptor3();
     assertEquals("prop-3", desp3.getName());
     assertEquals(Boolean.class, desp3.getType());
     assertEquals(PropertyKind.MAPPED, desp3.getKind());
+    assertEquals(false, desp3.isSimple());
+    assertEquals(false, desp3.isIndexed());
+    assertEquals(true, desp3.isMapped());
 
     final PropertyDescriptor desp4 = getPropertyDescriptor4();
     assertEquals("prop_4", desp4.getName());
     assertEquals(MyBean.class, desp4.getType());
     assertEquals(PropertyKind.SIMPLE, desp4.getKind());
+    assertEquals(true, desp4.isSimple());
+    assertEquals(false, desp4.isIndexed());
+    assertEquals(false, desp4.isMapped());
 
     try {
       new PropertyDescriptor(null, String.class);
@@ -114,6 +142,33 @@ public class PropertyDescriptorTest extends BeanClassTestBase {
     }
   }
 
+  @Test
+  public void testEqualsHashCode() {
+    final PropertyDescriptor desp1 = getPropertyDescriptor1();
+    final PropertyDescriptor desp1c = getPropertyDescriptor1();
+    final PropertyDescriptor desp2 = getPropertyDescriptor2();
+
+    assertEquals(true, desp1.equals(desp1));
+    assertEquals(true, desp1.equals(desp1c));
+    assertEquals(false, desp1.equals(desp2));
+    assertEquals(false, desp1.equals(null));
+    assertEquals(false, desp1.equals("str"));
+
+    assertEquals(desp1.hashCode(), desp1.hashCode());
+    assertEquals(desp1.hashCode(), desp1c.hashCode());
+    assertNotEquals(desp1.hashCode(), desp2.hashCode());
+  }
+
+  @Test
+  public void testToString() {
+    final PropertyDescriptor desp1 = getPropertyDescriptor1();
+    final PropertyDescriptor desp1c = getPropertyDescriptor1();
+    final PropertyDescriptor desp2 = getPropertyDescriptor2();
+
+    assertEquals(desp1.toString(), desp1.toString());
+    assertNotEquals(desp1.toString(), desp1c.toString());
+    assertNotEquals(desp1.toString(), desp2.toString());
+  }
 
   @Test
   public void testXmlSerialize() throws Exception {

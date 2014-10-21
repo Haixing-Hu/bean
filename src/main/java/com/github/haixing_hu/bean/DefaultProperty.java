@@ -49,18 +49,16 @@ public class DefaultProperty implements Property {
   public DefaultProperty(final PropertyDescriptor descriptor) {
     this.descriptor = requireNonNull("descriptor", descriptor);
     switch (descriptor.getKind()) {
-      case SIMPLE:
-        value = null;
-        break;
       case INDEXED:
         value = new ArrayList<Object>();
         break;
       case MAPPED:
         value = new HashMap<String, Object>();
         break;
+      case SIMPLE:
       default:
-        throw new IllegalArgumentException("Unsupported property kind: "
-            + descriptor.getKind());
+        value = null;
+        break;
     }
   }
 
@@ -88,9 +86,6 @@ public class DefaultProperty implements Property {
    *           if the kind of this property is not the required kind.
    */
   protected void checkKind(final PropertyKind ... expectedKinds) {
-    if (expectedKinds.length == 0) {
-      return;
-    }
     final PropertyKind actualKind = descriptor.getKind();
     for (final PropertyKind kind : expectedKinds) {
       if (actualKind == kind) {
@@ -136,9 +131,6 @@ public class DefaultProperty implements Property {
   @Override
   public final void setRawValue(@Nullable final Object value) {
     switch (descriptor.getKind()) {
-      case SIMPLE:
-        this.value = value;
-        return;
       case INDEXED:
         if (value == null) {
           throw new NullPointerException("value is null.");
@@ -161,9 +153,10 @@ public class DefaultProperty implements Property {
         //  FIXME: check the generic argument type of the HashMap
         setMappedValue((HashMap<String, Object>) value);
         return;
+      case SIMPLE:
       default:
-        throw new IllegalArgumentException("Unsupported property kind: "
-            + descriptor.getKind());
+        this.value = value;
+        return;
     }
   }
 
@@ -175,6 +168,7 @@ public class DefaultProperty implements Property {
         return ((List<?>) value).size();
       case MAPPED:
         return ((Map<?, ?>) value).size();
+      case SIMPLE:
       default:
         throw new InvalidPropertyKindException(descriptor.getName(), kind,
             PropertyKind.INDEXED, PropertyKind.MAPPED);
@@ -308,6 +302,7 @@ public class DefaultProperty implements Property {
       case MAPPED:
         ((Map<?, ?>) value).clear();
         break;
+      case SIMPLE:
       default:
         throw new InvalidPropertyKindException(descriptor.getName(), kind,
             PropertyKind.INDEXED, PropertyKind.MAPPED);

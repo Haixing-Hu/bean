@@ -18,6 +18,8 @@ package com.github.haixing_hu.bean;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 /**
@@ -205,5 +207,73 @@ public class DefaultPropertyTest extends PropertyTestBase {
     testProperty3Clear(prop3);
   }
 
+  @Test
+  public void testEqualsHashCode() {
+    final PropertyDescriptor desp1 = getPropertyDescriptor1();
+    final DefaultProperty prop1 = new DefaultProperty(desp1);
+    final DefaultProperty prop1c = new DefaultProperty(desp1);
+
+    final PropertyDescriptor desp2 = getPropertyDescriptor2();
+    final DefaultProperty prop2 = new DefaultProperty(desp2);
+    final DefaultProperty prop2c = new DefaultProperty(desp2);
+
+    final PropertyDescriptor desp3 = getPropertyDescriptor3();
+    final DefaultProperty prop3 = new DefaultProperty(desp3);
+    final DefaultProperty prop3c = new DefaultProperty(desp3);
+
+    assertEquals(true, prop1.equals(prop1));
+    assertEquals(true, prop1.equals(prop1c));
+    assertEquals(false, prop1.equals(prop2));
+    assertEquals(false, prop1.equals(prop3));
+    assertEquals(false, prop1.equals(null));
+    assertEquals(false, prop1.equals("str"));
+
+    assertEquals(prop1.hashCode(), prop1.hashCode());
+    assertEquals(prop1.hashCode(), prop1c.hashCode());
+    assertNotEquals(prop1.hashCode(), prop2.hashCode());
+    assertNotEquals(prop1.hashCode(), prop3.hashCode());
+
+    assertEquals(true, prop2.equals(prop2));
+    assertEquals(true, prop2.equals(prop2c));
+    assertEquals(false, prop2.equals(prop1));
+    assertEquals(false, prop2.equals(prop3));
+    assertEquals(false, prop2.equals(null));
+    assertEquals(false, prop2.equals("str"));
+
+    assertEquals(prop2.hashCode(), prop2.hashCode());
+    assertEquals(prop2.hashCode(), prop2c.hashCode());
+    assertNotEquals(prop2.hashCode(), prop1.hashCode());
+    assertNotEquals(prop2.hashCode(), prop3.hashCode());
+
+    assertEquals(true, prop3.equals(prop3));
+    assertEquals(true, prop3.equals(prop3c));
+    assertEquals(false, prop3.equals(prop1));
+    assertEquals(false, prop3.equals(prop2));
+    assertEquals(false, prop3.equals(null));
+    assertEquals(false, prop3.equals("str"));
+
+    assertEquals(prop3.hashCode(), prop3.hashCode());
+    assertEquals(prop3.hashCode(), prop3c.hashCode());
+    assertNotEquals(prop3.hashCode(), prop1.hashCode());
+    assertNotEquals(prop3.hashCode(), prop2.hashCode());
+  }
+
+  @Test
+  public void testToString() {
+    final PropertyDescriptor desp1 = getPropertyDescriptor1();
+    final DefaultProperty prop1 = new DefaultProperty(desp1);
+    final DefaultProperty prop1c = new DefaultProperty(desp1);
+
+    final PropertyDescriptor desp2 = getPropertyDescriptor2();
+    final DefaultProperty prop2 = new DefaultProperty(desp2);
+
+    final PropertyDescriptor desp3 = getPropertyDescriptor3();
+    final DefaultProperty prop3 = new DefaultProperty(desp3);
+
+    assertEquals(prop1.toString(), prop1.toString());
+    assertNotEquals(prop1.toString(), prop1c.toString());
+    assertNotEquals(prop1.toString(), prop2.toString());
+    assertNotEquals(prop1.toString(), prop3.toString());
+  }
 
 }
