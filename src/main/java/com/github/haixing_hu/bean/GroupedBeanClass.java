@@ -47,7 +47,7 @@ import static com.github.haixing_hu.lang.Argument.requireNonNull;
  * <pre><code>
  * &lt;bean-class&gt;
  *   &lt;name&gt;bean2&lt;/name&gt;
- *   &lt;type&gt;default-bean&lt;/type&gt;
+ *   &lt;bean&gt;default-bean&lt;/bean&gt;
  *   &lt;property-groups&gt;
  *     &lt;property-group&gt;
  *       &lt;name&gt;group0&lt;/name&gt;
@@ -98,7 +98,7 @@ public class GroupedBeanClass implements BeanClass {
    * The {@link Bean} implementation class used for creating new instances.
    */
   @XmlJavaTypeAdapter(TypeAliasXmlAdapter.class)
-  @XmlElement(name = "type", required = false)
+  @XmlElement(name = "bean", required = false)
   protected Class<? extends Bean> beanType = DefaultBean.class;
 
   /**

@@ -36,7 +36,7 @@ public class BeanClassTestBase extends PropertyDescriptorTestBase {
   }
 
   protected String getDefaultBeanClass0Xml() {
-    return "<bean-class>" + "<name>bean0</name>" + "<type>default-bean</type>"
+    return "<bean-class>" + "<name>bean0</name>" + "<bean>default-bean</bean>"
         + "<properties/>" + "</bean-class>";
   }
 
@@ -47,7 +47,7 @@ public class BeanClassTestBase extends PropertyDescriptorTestBase {
   }
 
   protected String getDefaultBeanClass1Xml() {
-    return "<bean-class>" + "<name>bean1</name>" + "<type>default-bean</type>"
+    return "<bean-class>" + "<name>bean1</name>" + "<bean>default-bean</bean>"
         + "<properties/>" + "</bean-class>";
   }
 
@@ -58,7 +58,7 @@ public class BeanClassTestBase extends PropertyDescriptorTestBase {
   }
 
   protected String getDefaultBeanClass2Xml() {
-    return "<bean-class>" + "<name>bean2</name>" + "<type>my-bean</type>"
+    return "<bean-class>" + "<name>bean2</name>" + "<bean>my-bean</bean>"
         + "<properties>" + getPropertyDescriptor1Xml() + "</properties>"
         + "</bean-class>";
   }
@@ -70,7 +70,7 @@ public class BeanClassTestBase extends PropertyDescriptorTestBase {
   }
 
   protected String getDefaultBeanClass3Xml() {
-    return "<bean-class>" + "<name>bean3</name>" + "<type>default-bean</type>"
+    return "<bean-class>" + "<name>bean3</name>" + "<bean>default-bean</bean>"
         + "<properties>" + getPropertyDescriptor1Xml()
         + getPropertyDescriptor2Xml() + getPropertyDescriptor3Xml()
         + "</properties>" + "</bean-class>";
@@ -85,7 +85,7 @@ public class BeanClassTestBase extends PropertyDescriptorTestBase {
   }
 
   protected String getDefaultBeanClass4Xml() {
-    return "<bean-class>" + "<name>bean4</name>" + "<type>my-bean</type>"
+    return "<bean-class>" + "<name>bean4</name>" + "<bean>my-bean</bean>"
         + "<properties>" + getPropertyDescriptor1Xml()
         + getPropertyDescriptor2Xml() + getPropertyDescriptor3Xml()
         + getPropertyDescriptor4Xml() + getPropertyDescriptor5Xml()
@@ -97,7 +97,7 @@ public class BeanClassTestBase extends PropertyDescriptorTestBase {
   }
 
   protected String getGroupedBeanClass0Xml() {
-    return "<bean-class>" + "<name>bean0</name>" + "<type>default-bean</type>"
+    return "<bean-class>" + "<name>bean0</name>" + "<bean>default-bean</bean>"
         + "<property-groups/>" + "</bean-class>";
   }
 
@@ -107,7 +107,7 @@ public class BeanClassTestBase extends PropertyDescriptorTestBase {
   }
 
   protected String getGroupedBeanClass1Xml() {
-    return "<bean-class>" + "<name>bean1</name>" + "<type>default-bean</type>"
+    return "<bean-class>" + "<name>bean1</name>" + "<bean>default-bean</bean>"
         + "<property-groups>" + getPropertyDescriptorGroup0Xml()
         + "</property-groups>" + "</bean-class>";
   }
@@ -120,7 +120,7 @@ public class BeanClassTestBase extends PropertyDescriptorTestBase {
   }
 
   protected String getGroupedBeanClass2Xml() {
-    return "<bean-class>" + "<name>bean2</name>" + "<type>my-bean</type>"
+    return "<bean-class>" + "<name>bean2</name>" + "<bean>my-bean</bean>"
         + "<property-groups>" + getPropertyDescriptorGroup0Xml()
         + getPropertyDescriptorGroup1Xml() + "</property-groups>"
         + "</bean-class>";
@@ -133,7 +133,7 @@ public class BeanClassTestBase extends PropertyDescriptorTestBase {
   }
 
   protected String getGroupedBeanClass3Xml() {
-    return "<bean-class>" + "<name>bean3</name>" + "<type>default-bean</type>"
+    return "<bean-class>" + "<name>bean3</name>" + "<bean>default-bean</bean>"
         + "<property-groups>" + getPropertyDescriptorGroup0Xml()
         + getPropertyDescriptorGroup1Xml() + getPropertyDescriptorGroup2Xml()
         + "</property-groups>" + "</bean-class>";
@@ -148,7 +148,7 @@ public class BeanClassTestBase extends PropertyDescriptorTestBase {
   }
 
   protected String getGroupedBeanClass4Xml() {
-    return "<bean-class>" + "<name>bean4</name>" + "<type>my-bean</type>"
+    return "<bean-class>" + "<name>bean4</name>" + "<bean>my-bean</bean>"
         + "<property-groups>" + getPropertyDescriptorGroup0Xml()
         + getPropertyDescriptorGroup1Xml() + getPropertyDescriptorGroup2Xml()
         + getPropertyDescriptorGroup3Xml() + "</property-groups>"
