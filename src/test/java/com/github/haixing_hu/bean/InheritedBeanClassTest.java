@@ -17,10 +17,34 @@
  */
 package com.github.haixing_hu.bean;
 
+import org.junit.Test;
+
 /**
+ * Unit test of the {@link InheritedBeanClass}.
  *
  * @author Haixing Hu
  */
-public class InheritedBeanClassTest {
+public class InheritedBeanClassTest extends BeanClassTestBase {
 
+  @Test
+  public void testXmlSerialization() throws Exception {
+    final InheritedBeanClass cls = new InheritedBeanClass("class1",
+        new PropertyDescriptor[] {
+          getPropertyDescriptor1(),
+          getPropertyDescriptor2(),
+          getPropertyDescriptor3(),
+    }, "type1");
+    final String xml = "<inherited-bean-class>"
+                     + "<name>class1</name>"
+                     + "<bean>default-bean</bean>"
+                     + "<type>type1</type>"
+                     + "<properties>"
+                     + getPropertyDescriptor1Xml()
+                     + getPropertyDescriptor2Xml()
+                     + getPropertyDescriptor3Xml()
+                     + "</properties>"
+                     + "</inherited-bean-class>";
+    testXmlMarshal(InheritedBeanClass.class, cls, xml);
+    testXmlUnmarshal(InheritedBeanClass.class, xml, cls);
+  }
 }
